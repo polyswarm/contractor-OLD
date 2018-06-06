@@ -1,2 +1,0 @@
-cd /home/user
-python3 polyswarmd.py &
