@@ -1,15 +1,9 @@
 # contractor
 
-@Robert
-
-
-## process
+## How to use
 
 ```
 $ docker build -t polyswarm/contractor -f Dockerfile .
 ```
 
 ## XXX
-
-pacakage.json missing To: @Colin
-
