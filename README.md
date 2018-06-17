@@ -1,12 +1,13 @@
-# contractor
+# Contractor
 
 ## How to use
 
 ```
-$ docker build -t polyswarm/contractor -f Dockerfile .
+$ docker build . -t contractor
+$ docker run contractor
 ```
 
-## XXX
+## TODO
 
 - Check whether there are use case specific items in the docker image. (address info or network info) ...1 
 - If there are (1), use extenal volume(container)
