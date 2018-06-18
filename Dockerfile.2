@@ -17,21 +17,25 @@ ENV PMIGRATE=$HOME_DIR/scripts/pmigrate
 #     npm install
 # }
 
-WORKDIR $HOME_DIR
-RUN     wget http://nodejs.org/dist/v0.10.30/node-v0.10.30.tar.gz
-RUN     tar xzvf node-v* && cd node-v*
-RUN     yum -y update && yum install \
-                                     \
-           gcc                       \ 
-           gcc-c++                   
+WORKDIR   $HOME_DIR
 
-RUN     ./configure
-RUN     make
-RUN     make install
-RUN     node --version
+RUN       yum -y update && yum install -y \
+                                          \
+             wget                         \
+             make                         \
+             gcc                          \ 
+             gcc-c++                   
 
-#RUN     npm install ethereumjs-tx
-#RUN     npm install keythereum
+RUN       wget http://nodejs.org/dist/v0.10.30/node-v0.10.30.tar.gz
+RUN       tar xzvf node-v*
+WORKDIR   node-v0.10.30
+RUN       ./configure
+RUN       make
+RUN       make install
+RUN       node --version
+
+#RUN       npm install ethereumjs-tx
+#RUN       npm install keythereum
 # 
 # #docker rmi $(docker images -q)
 # #
