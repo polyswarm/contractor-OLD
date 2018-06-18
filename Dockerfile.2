@@ -8,52 +8,6 @@ ENV POLYSWARM_RELAY=$HOME_DIR/polyswarm-relay
 ENV POLYSWARM_RELAY_TRUFFLE=$POLYSWARM_RELAY/truffle
 ENV PMIGRATE=$HOME_DIR/scripts/pmigrate
 
-RUN yum update -y && yum install -y \
-                                    \              
-      git-core                      \
-      zlib                          \
-      zlib-devel                    \
-      gcc-c++                       \
-      patch                         \
-      readline                      \
-      readline-devel                \
-      libyaml-devel                 \
-      libffi-devel                  \
-      openssl-devel                 \
-      make                          \
-      bzip2                         \
-      autoconf                      \
-      automake                      \
-      libtool                       \
-      bison                         \
-      curl                          \
-      sqlite-devel
-
-# 
-# gem install colorize
-# gem install mocha
-# gem install rspec
-# gem install websocket
-# gem install websocket-client-simple
-# 
-# idle() {
-#     if [ -f $3 ]; then
-#         echo "error: $2 file: $3"
-#         rm $3
-#         exit
-#     fi
-#     if [ ! -f $1 ]; then
-#         echo "waiting $1"
-#         sleep 1
-#         idle $1
-#     fi
-# 
-#     echo "==== .env ====="
-#     pwd
-#     cat $1
-#     echo "==============="
-# }
-# 
 # npm_prep(){
 #     say "node-libcurl installation"
 #     npm install webpack@^4.0.0
@@ -62,10 +16,22 @@ RUN yum update -y && yum install -y \
 #     say    "node modules installation"
 #     npm install
 # }
-# 
-# cd $HOME_DIR
-# npm install ethereumjs-tx
-# npm install keythereum
+
+WORKDIR $HOME_DIR
+RUN     wget http://nodejs.org/dist/v0.10.30/node-v0.10.30.tar.gz
+RUN     tar xzvf node-v* && cd node-v*
+RUN     yum -y update && yum install \
+                                     \
+           gcc                       \ 
+           gcc-c++                   
+
+RUN     ./configure
+RUN     make
+RUN     make install
+RUN     node --version
+
+#RUN     npm install ethereumjs-tx
+#RUN     npm install keythereum
 # 
 # #docker rmi $(docker images -q)
 # #
