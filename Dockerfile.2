@@ -1,0 +1,138 @@
+FROM centos:7
+
+ENV HOME_DIR=/usr/src/app
+ENV POLYSWARM_D=$HOME_DIR/polyswarmd
+ENV POLYSWARM_D_TRUFFLE=$POLYSWARM_D/truffle
+ENV POLYSWARM_D_LOG=$POLYSWARM_D/log
+ENV POLYSWARM_RELAY=$HOME_DIR/polyswarm-relay
+ENV POLYSWARM_RELAY_TRUFFLE=$POLYSWARM_RELAY/truffle
+ENV PMIGRATE=$HOME_DIR/scripts/pmigrate
+# 
+# gem install colorize
+# gem install mocha
+# gem install rspec
+# gem install websocket
+# gem install websocket-client-simple
+# 
+# idle() {
+#     if [ -f $3 ]; then
+#         echo "error: $2 file: $3"
+#         rm $3
+#         exit
+#     fi
+#     if [ ! -f $1 ]; then
+#         echo "waiting $1"
+#         sleep 1
+#         idle $1
+#     fi
+# 
+#     echo "==== .env ====="
+#     pwd
+#     cat $1
+#     echo "==============="
+# }
+# 
+# npm_prep(){
+#     say "node-libcurl installation"
+#     npm install webpack@^4.0.0
+#     npm install node-libcurl --runtime=electron --target=1.0.2 --disturl=https://atom.io/download/atom-shell --arch=x64 --save &>/dev/null
+# 
+#     say    "node modules installation"
+#     npm install
+# }
+# 
+# cd $HOME_DIR
+# npm install ethereumjs-tx
+# npm install keythereum
+# 
+# #docker rmi $(docker images -q)
+# #
+# # Clone polyswarmd
+# # 
+# # say "Clone polyswarmd"
+# # if [ -d $POLYSWARM_D ]; then
+# #     rm -rf $POLYSWARM_D
+# # fi
+# # git clone git@gitlab.polyswarm.io:polyswarm/polyswarmd.git
+# cd $POLYSWARM_D
+# # git checkout tutorial
+# # git pull
+# #
+# # polyswarmd: commit: 0b7092d56bc7fd91b needs these patches (2)
+# # this needs to be removed soon: https://gitlab.polyswarm.io/polyswarm/polyswarmd/issues/37
+# #
+# # cp     $HOME_DIR/scripts/Dockerfile.x docker/Dockerfile
+# # cp     $HOME_DIR/scripts/docker-compose-priv-testnet.yml docker/
+# 
+# #
+# # Build/Compose polywarmd
+# #
+# say "Build/Compose polyswarmd"
+# docker-compose -f docker/docker-compose-priv-testnet.yml up geth >/dev/null &  
+# 
+# #
+# # Contract deployment
+# #
+# say    "Contract deployment"
+# rm -rf truffle
+# rm -rf polyswarm-contracts
+# say    "Cloning Contract Repository (deprecated soon)"
+# git    clone https://github.com/polyswarm/polyswarm-contracts.git truffle
+# cd $POLYSWARM_D_TRUFFLE
+# 
+# npm_prep
+# npm install -g truffle
+# say   "log folder initialization"
+# rm    -rf ../log
+# mkdir -p ../log
+# 
+# #
+# # XXX this should be ablished soon with update of polyswarmd
+# #
+# say   "pmigrate launch homechain"
+# DOT_ENV="../src/polyswarmd/.env"
+# if [ -f $DOT_ENV  ]; then
+#   rm $DOT_ENV
+# fi
+# $PMIGRATE | tee $POLYSWARM_D_LOG/homechain.log
+# idle "$DOT_ENV" "Contract_migration_failure" "../.errflag"
+# 
+# #
+# # Clone Relay
+# #
+# cd        $HOME_DIR
+# say       "Cloning Relay"
+# rm -rf    polyswarm-relay
+# git       clone git@gitlab.polyswarm.io:polyswarm/polyswarm-relay.git
+# cd        $POLYSWARM_RELAY_TRUFFLE
+# npm_prep
+# 
+# #
+# # XXX this should be ablished soon with update of polyswarmd
+# #
+# say       "pmigrate launch relay homechain"
+# $PMIGRATE --relay | tee $POLYSWARM_D_LOG/home_relay.log
+# cd        $POLYSWARM_D
+# idle      "src/polyswarmd/.env" "Relay_migration_failure" ".errflag"
+# 
+# #
+# # Side Chain
+# #
+# say       "pmigrate launch sidechain"
+# cd        $POLYSWARM_D_TRUFFLE
+# $PMIGRATE --side | tee $POLYSWARM_D_LOG/sidechain.log
+# cd        $POLYSWARM_RELAY_TRUFFLE
+# say       "pmigrate launch relay sidechain"
+# $PMIGRATE --relay --side | tee $POLYSWARM_D_LOG/side_relay.log
+# cd        $POLYSWARM_D
+# cat       "src/polyswarmd/.env"
+# 
+# #
+# # Last Composition (Orchestration)
+# #
+# mkdir -p config
+# cp     src/polyswarmd/.env config/polyswarmd.docker.yml
+# cp     src/polyswarmd/.env config/polyswarmd.yml
+# 
+# docker build   -t polyswarm/polyswarmd -f docker/Dockerfile .
+# docker-compose -f docker/docker-compose-priv-testnet.yml up | grep "polys" # | tee $POLYSWARM_D_LOG/compose.log

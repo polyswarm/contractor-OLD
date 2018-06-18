@@ -5,3 +5,5 @@ version: '3'
 services:
     contractor:
         image: "polyswarm/contractor"
+        volumes:
+            - /semaphore/contractor:/semaphore/contractor
