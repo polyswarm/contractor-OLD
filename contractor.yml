@@ -1,0 +1,7 @@
+#
+# XXX if someone already made this part, will be replaced by it.
+#
+version: '3'
+services:
+    polyswarmd:
+        image: "polyswarm/contractor"
