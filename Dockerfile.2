@@ -7,6 +7,28 @@ ENV POLYSWARM_D_LOG=$POLYSWARM_D/log
 ENV POLYSWARM_RELAY=$HOME_DIR/polyswarm-relay
 ENV POLYSWARM_RELAY_TRUFFLE=$POLYSWARM_RELAY/truffle
 ENV PMIGRATE=$HOME_DIR/scripts/pmigrate
+
+RUN yum update -y && yum install -y \
+                                    \              
+      git-core                      \
+      zlib                          \
+      zlib-devel                    \
+      gcc-c++                       \
+      patch                         \
+      readline                      \
+      readline-devel                \
+      libyaml-devel                 \
+      libffi-devel                  \
+      openssl-devel                 \
+      make                          \
+      bzip2                         \
+      autoconf                      \
+      automake                      \
+      libtool                       \
+      bison                         \
+      curl                          \
+      sqlite-devel
+
 # 
 # gem install colorize
 # gem install mocha
