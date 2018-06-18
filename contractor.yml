@@ -3,5 +3,5 @@
 #
 version: '3'
 services:
-    polyswarmd:
+    contractor:
         image: "polyswarm/contractor"
