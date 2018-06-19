@@ -9,7 +9,7 @@ say(){
 progress(){
     END=30
     for i in $(seq 1 $END); do
-        printf "."
+        echo "."
         sleep 1
     done
 }
