@@ -9,14 +9,7 @@ say(){
 progress(){
     END=60
     for i in $(seq 1 $END); do
-        modulus=$(($i % 3))
-        if [ $modulus -eq 0 ]; then
-          printf "/\r"
-        elif [ $modulus -eq 1 ]; then
-          printf "-\r"
-        else
-          printf "\\r"
-        fi
+        printf "."
     done
 }
 
