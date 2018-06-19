@@ -1,6 +1,6 @@
 version: '3'
 services:
-    contract:
+    contracts:
         image: "polyswarm/contractor"
         volumes:
             - "contract:/flag" 
