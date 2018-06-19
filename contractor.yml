@@ -2,7 +2,12 @@ version: '3'
 services:
     contracts:
         image: "polyswarm/contractor"
+        depends_on:
+            - geth
+            - sidechain
+        environment:
+            - geth=geth
+            - sidechain=sidechain
         volumes:
-            - "contract:/flag" 
-volumes:
-    contract:
+            - "./:/build"
+        command: ["./scripts/migrate_and_create_config.sh"]
