@@ -9,7 +9,7 @@ say(){
 progress(){
     END=60
     for i in $(seq 1 $END); do
-        if [ $i % 3 -eq 0 ]; then
+        if [ $i % 3 == 0 ]; then
           echo "/"
         #elif [ $i % 3 -eq 1 ]; then
         #  echo "-"
