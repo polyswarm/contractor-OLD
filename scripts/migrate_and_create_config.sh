@@ -1,11 +1,18 @@
 #! /bin/bash
 
+say(){
+    echo "============================================="
+    echo $1
+    echo "============================================="
+}
+
 cur_gas_limit(){
-    limit=$(curl -i -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", true],"id":1}' "http://0.0.0.0:8545")
-    echo $limit
-    sleep 1
+    # limit=$(curl -i -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", true],"id":1}' "http://geth:8545")
+    # echo $(echo $limit | jq -r '.gasLimit')
+
+    limit=$(truffle migrate --reset)
+    sleep 2
     cur_gas_limit
-    return limit
 }
 
 cur_gas_limit
