@@ -24,7 +24,7 @@ cur_gas_limit(){
     if [[ $limit = *"exceeds block gas limit"* ]]; then
         curl -s -i -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", true],"id":1}' "http://geth:8545"
         echo "Gas is not sufficient. Hold on ... "
-        sleep  3
+        progress
         cur_gas_limit
     else
         echo "Migration Success!"
