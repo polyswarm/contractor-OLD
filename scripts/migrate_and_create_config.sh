@@ -11,11 +11,11 @@ progress(){
     for i in $(seq 1 $END); do
         modulus=$(($i % 3))
         if [ $modulus -eq 0 ]; then
-          echo "/"
-        #elif [ $i % 3 -eq 1 ]; then
-        #  echo "-"
-        #else
-        #  echo "\"
+          printf "/\r"
+        elif [ $modulus -eq 1 ]; then
+          printf "-\r"
+        else
+          printf "\\r"
         fi
     done
 }
