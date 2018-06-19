@@ -4,7 +4,7 @@ services:
         depends_on:
             - geth
             - sidechain
-        image: "contractor"
+        image: "polyswarm/contractor"
         environment:
             - geth=geth
             - HOME_CHAIN=http://geth:8545
