@@ -4,7 +4,7 @@ services:
   - docker:dind
 
 before_script:
-  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
   
 variables:
   DOCKER_HUB_REGISTRY: "https://index.docker.io/v1/"
@@ -19,7 +19,7 @@ build-master:
     stage: build
     script:
         - docker build -t $DOCKER_FULL_PATH .
-        - docker push $DOCKER_FULL_PATH
+        - docker login -u "$SWARM_DOCKER_USER" -p "$SWARM_DOCKER_PASSWORD" $DOCKER_SWARM_REGISTRY && docker push index.docker.io/contractor
 
 build-non-master:
     except: 
@@ -30,5 +30,6 @@ build-non-master:
         DOCKER_FULL_PATH: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME"
     stage: build
     script:
+        - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
         - docker build -t $DOCKER_FULL_PATH .
         - docker push $DOCKER_FULL_PATH
