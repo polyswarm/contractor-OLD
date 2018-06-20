@@ -18,7 +18,7 @@ build-master:
         DOCKER_FULL_PATH: index.docker.io/polyswarm/contractor
     stage: build
     script:
-        - docker build -t $DOCKER_FULL_PATH .
+        - docker login -u "$SWARM_DOCKER_USER" -p "$SWARM_DOCKER_PASSWORD" $DOCKER_SWARM_REGISTRY && docker build -t $DOCKER_FULL_PATH .
         - docker login -u "$SWARM_DOCKER_USER" -p "$SWARM_DOCKER_PASSWORD" $DOCKER_SWARM_REGISTRY && docker push index.docker.io/polyswarm/contractor
 
 build-non-master:
