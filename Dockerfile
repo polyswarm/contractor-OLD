@@ -1,21 +1,7 @@
-from node:alpine
+from gitlab.polyswarm.io:3343/polyswarm/polyswarm-contracts/polyswarm-contracts:latest
 
-RUN npm install truffle -g
+RUN apk add curl
 
-COPY ./package.json ./
+COPY ./scripts ./scripts
 
-# install git
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
-
-# adding python (some npm modules need it)
-RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python
-RUN npm install --quiet node-gyp -g
-
-# install node modules
-RUN npm install
-
-COPY ./contracts ./
-COPY ./migrations ./
-
-CMD ["truffle", "migrate", "--reset"]
+CMD ["./scripts/migrate_and_create_config.sh"]
