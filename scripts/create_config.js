@@ -64,6 +64,7 @@ module.exports = async callback => {
       await nectarToken.mint(account, web3.toWei(1000000000, 'ether'));
     });
 
+    nectarToken.enableTransfers();
   }
 
 };
