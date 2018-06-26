@@ -58,6 +58,13 @@ module.exports = async callback => {
     config.push(`  offer_registry_address: "${offerRegistry.address}"`);
     // TODO: get real address
     config.push(`  erc20_relay_address: "${'0x0000000000000000000000000000000000000000'}"`);
+
+    await web3.eth.accounts.forEach(async account => {
+      console.log('Minting tokens for ', account);
+      await nectarToken.mint(account, web3.toWei(1000000000, 'ether'));
+    });
+
+    nectarToken.enableTransfers();
   }
 
 };
