@@ -3,12 +3,6 @@ image: docker:stable
 services:
   - docker:dind
 
-before_script:
-
-  
-variables:
-  DOCKER_HUB_REGISTRY: "https://index.docker.io/v1/"
-
 build-master:
     only: 
         - master
@@ -18,8 +12,8 @@ build-master:
         DOCKER_FULL_PATH: index.docker.io/polyswarm/contractor
     stage: build
     script:
-        - docker login -u "$SWARM_DOCKER_USER" -p "$SWARM_DOCKER_PASSWORD" $DOCKER_SWARM_REGISTRY && docker build -t $DOCKER_FULL_PATH .
-        - docker login -u "$SWARM_DOCKER_USER" -p "$SWARM_DOCKER_PASSWORD" $DOCKER_SWARM_REGISTRY && docker push index.docker.io/polyswarm/contractor
+        - docker build -t $DOCKER_FULL_PATH .
+        - docker login -u "$CI_CUSTOM_DOCKER_HUB_USERNAME" -p "$CI_CUSTOM_DOCKER_HUB_PASSWORD" $CI_CUSTOM_DOCKER_HUB_URI && docker push index.docker.io/polyswarm/contractor
 
 build-non-master:
     except: 
