@@ -1,4 +1,4 @@
-from gitlab.polyswarm.io:3343/polyswarm/polyswarm-contracts/polyswarm-contracts:latest
+from polyswarm/contracts/contracts
 
 RUN apk add curl
 
