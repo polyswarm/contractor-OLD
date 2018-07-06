@@ -19,11 +19,11 @@ module.exports = async callback => {
   }
 
   if (args.home) {
-    await deployTo(args.home, 'homechain');
+    await deployTo(args.home, args.arbiter, 'homechain');
   }
 
   if (args.side) {
-    await deployTo(args.side, 'sidechain');
+    await deployTo(args.side, args.arbiter, 'sidechain');
   }
 
   writeFile(`${__dirname}/../build/polyswarmd.yml`, config.join('\n'), function(err) {
@@ -39,7 +39,7 @@ module.exports = async callback => {
 
   callback();
 
-  async function deployTo(uri, name) {
+  async function deployTo(uri, arbiter, name) {
     NectarToken.setProvider(new web3.providers.HttpProvider(uri));
     OfferRegistry.setProvider(new web3.providers.HttpProvider(uri));
     BountyRegistry.setProvider(new web3.providers.HttpProvider(uri));
@@ -64,7 +64,10 @@ module.exports = async callback => {
       await nectarToken.mint(account, web3.toWei(1000000000, 'ether'));
     });
 
+    if (arbiter && web3.utils.isAddress(arbiter)) {
+      await bountyRegistry.addArbiter(arbiter, await web3.eth.blockNumber);
+    }
+
     nectarToken.enableTransfers();
   }
-
 };

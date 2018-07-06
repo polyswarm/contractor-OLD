@@ -15,4 +15,4 @@ done
 >&2 echo "Gas limit (${gasLimit}) is high enough to deploy to!"
 
 truffle migrate --reset
-truffle exec scripts/create_config.js --home=$HOME_CHAIN --side=$SIDE_CHAIN --ipfs=$IPFS
+truffle exec scripts/create_config.js --home=$HOME_CHAIN --side=$SIDE_CHAIN --ipfs=$IPFS --arbiter=$ARBITER
