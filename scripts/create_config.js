@@ -4,6 +4,8 @@ const args = require('args-parser')(process.argv);
 const NectarToken = artifacts.require('NectarToken');
 const OfferRegistry = artifacts.require("./OfferRegistry.sol");
 const BountyRegistry = artifacts.require('BountyRegistry');
+const ArbiterStaking = artifacts.require('ArbiterStaking');
+
 const fs = require('fs');
 
 module.exports = async callback => {
@@ -64,10 +66,18 @@ module.exports = async callback => {
       await nectarToken.mint(account, web3.toWei(1000000000, 'ether'));
     });
 
+    await nectarToken.enableTransfers();
+
     if (arbiter && web3.isAddress(arbiter)) {
+      console.log('Setting arbiter to: ' + arbiter);
+      console.log(await web3.eth.blockNumber);
+      const arbiterStaking = ArbiterStaking.at(await bountyRegistry.staking());
+      await nectarToken.approve(arbiterStaking.address, web3.toWei(10000000, 'ether'), { from: arbiter });
+      console.log('Staking......')
+      await arbiterStaking.deposit(web3.toWei(10000000, 'ether'), { from: arbiter });
       await bountyRegistry.addArbiter(arbiter, await web3.eth.blockNumber);
     }
 
-    nectarToken.enableTransfers();
+
   }
 };
