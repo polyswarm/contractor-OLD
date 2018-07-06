@@ -64,7 +64,7 @@ module.exports = async callback => {
       await nectarToken.mint(account, web3.toWei(1000000000, 'ether'));
     });
 
-    if (arbiter && web3.utils.isAddress(arbiter)) {
+    if (arbiter && web3.isAddress(arbiter)) {
       await bountyRegistry.addArbiter(arbiter, await web3.eth.blockNumber);
     }
 
