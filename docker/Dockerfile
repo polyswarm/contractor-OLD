@@ -1,4 +1,4 @@
-from polyswarm/contracts/contracts
+from polyswarm/polyswarm-contracts:latest
 
 RUN apk add curl
 
