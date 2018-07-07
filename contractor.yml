@@ -1,6 +1,6 @@
 version: '3'
 services:
-    contracts:
+    contractor:
         depends_on:
             - geth
             - sidechain
